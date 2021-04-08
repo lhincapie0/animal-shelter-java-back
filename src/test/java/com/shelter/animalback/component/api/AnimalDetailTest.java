@@ -2,6 +2,8 @@ package com.shelter.animalback.component.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shelter.animalback.controller.dto.AnimalDto;
 import com.shelter.animalback.domain.Animal;
+import com.shelter.animalback.model.AnimalDao;
+import com.shelter.animalback.repository.AnimalRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,17 +36,16 @@ public class AnimalDetailTest {
     private AnimalDto cat;
 
     @Autowired
+    private AnimalRepository animalRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
     @SneakyThrows
     public void setUp() {
-        cat = new AnimalDto("Thor", "Birmano", "Male", false, new String[]{"Leucemia Felina"});
-        var catString = new ObjectMapper().writeValueAsString(cat);
-
-        mockMvc.perform(post("/animals")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(catString));
+        var cat = new AnimalDao("Thor", "Birmano", "Male", false);
+        animalRepository.save(cat);
     }
 
     @Test
@@ -61,9 +62,9 @@ public class AnimalDetailTest {
         var response = mockMvc.perform(get("/animals/Thor")).andReturn().getResponse();
         var animal = new ObjectMapper().readValue(response.getContentAsString(), Animal.class);
 
-        assertThat(animal.getName(), equalTo(cat.getName()));
-        assertThat(animal.getBreed(), equalTo(cat.getBreed()));
-        assertThat(animal.getGender(), equalTo(cat.getGender()));
-        assertThat(animal.isVaccinated(), equalTo(cat.isVaccinated()));
+        assertThat(animal.getName(), equalTo("Thor"));
+        assertThat(animal.getBreed(), equalTo("Birmano"));
+        assertThat(animal.getGender(), equalTo("Male"));
+        assertThat(animal.isVaccinated(), equalTo(false));
     }
 }

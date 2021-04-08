@@ -2,6 +2,8 @@ package com.shelter.animalback.component.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shelter.animalback.controller.dto.AnimalDto;
+import com.shelter.animalback.model.AnimalDao;
+import com.shelter.animalback.repository.AnimalRepository;
 import lombok.SneakyThrows;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONArray;
@@ -35,15 +37,14 @@ public class ListAnimalTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private AnimalRepository animalRepository;
+
     @BeforeEach
     @SneakyThrows
     public void setUp() {
-        AnimalDto cat = new AnimalDto("Thor", "Birmano", "Male", false, new String[]{"Leucemia Felina"});
-        var catString = new ObjectMapper().writeValueAsString(cat);
-
-        mockMvc.perform(post("/animals")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(catString));
+        var cat = new AnimalDao("Thor", "Birmano", "Male", false);
+        animalRepository.save(cat);
     }
 
     @Test
