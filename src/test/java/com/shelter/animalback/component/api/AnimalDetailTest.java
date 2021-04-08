@@ -2,8 +2,6 @@ package com.shelter.animalback.component.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shelter.animalback.controller.dto.AnimalDto;
 import com.shelter.animalback.domain.Animal;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,21 +39,12 @@ public class AnimalDetailTest {
     @BeforeEach
     @SneakyThrows
     public void setUp() {
-        RestAssured.port = port;
-
         cat = new AnimalDto("Thor", "Birmano", "Male", false, new String[]{"Leucemia Felina"});
         var catString = new ObjectMapper().writeValueAsString(cat);
 
         mockMvc.perform(post("/animals")
             .contentType(MediaType.APPLICATION_JSON)
             .content(catString));
-
-        RestAssured
-                .given()
-                .contentType(ContentType.JSON)
-                .body(cat)
-                .when()
-                .post("/animals");
     }
 
     @Test

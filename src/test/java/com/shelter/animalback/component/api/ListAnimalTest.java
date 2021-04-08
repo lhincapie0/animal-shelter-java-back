@@ -2,9 +2,6 @@ package com.shelter.animalback.component.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shelter.animalback.controller.dto.AnimalDto;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import lombok.SneakyThrows;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONArray;
@@ -41,7 +38,6 @@ public class ListAnimalTest {
     @BeforeEach
     @SneakyThrows
     public void setUp() {
-        RestAssured.port = port;
         AnimalDto cat = new AnimalDto("Thor", "Birmano", "Male", false, new String[]{"Leucemia Felina"});
         var catString = new ObjectMapper().writeValueAsString(cat);
 
