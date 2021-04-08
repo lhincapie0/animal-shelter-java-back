@@ -1,7 +1,5 @@
 package com.shelter.animalback.component.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shelter.animalback.controller.dto.AnimalDto;
 import com.shelter.animalback.model.AnimalDao;
 import com.shelter.animalback.repository.AnimalRepository;
 import lombok.SneakyThrows;
@@ -30,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class ListAnimalTest {
+public class ListAnimalsTest {
     @LocalServerPort
     private int port;
 
@@ -60,7 +58,7 @@ public class ListAnimalTest {
     public void listAnimalsWithRightSchema() {
         var response = mockMvc.perform(get("/animals")).andReturn().getResponse();
 
-        var jsonSchema = new JSONObject(new JSONTokener(ListAnimalTest.class.getResourceAsStream("/animals.json")));
+        var jsonSchema = new JSONObject(new JSONTokener(ListAnimalsTest.class.getResourceAsStream("/animals.json")));
         var jsonArray = new JSONArray(response.getContentAsString());
         var schema = SchemaLoader.load(jsonSchema);
         schema.validate(jsonArray);
