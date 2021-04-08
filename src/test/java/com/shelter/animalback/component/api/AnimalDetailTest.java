@@ -1,13 +1,10 @@
 package com.shelter.animalback.component.api;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shelter.animalback.controller.dto.AnimalDto;
 import com.shelter.animalback.domain.Animal;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,11 +20,15 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-public class animalDetailTest {
+public class AnimalDetailTest {
 
     @LocalServerPort
     private int port;
@@ -38,7 +39,8 @@ public class animalDetailTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    @SneakyThrows
+    public void setUp() {
         RestAssured.port = port;
 
         cat = new AnimalDto("Thor", "Birmano", "Male", false, new String[]{"Leucemia Felina"});
@@ -57,20 +59,22 @@ public class animalDetailTest {
     }
 
     @Test
-    public void animaDetailWithSuccessStatusCodeAndContentType() throws Exception {
+    @SneakyThrows
+    public void animaDetailWithSuccessStatusCodeAndContentType() {
         var response = mockMvc.perform(get("/animals/Thor")).andReturn().getResponse();
-        MatcherAssert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.OK.value()));
-        MatcherAssert.assertThat(response.getContentType(), Matchers.equalTo(MediaType.APPLICATION_JSON.toString()));
+        assertThat(response.getStatus(), equalTo(HttpStatus.OK.value()));
+        assertThat(response.getContentType(), equalTo(MediaType.APPLICATION_JSON.toString()));
     }
 
     @Test
-    public void detailWithTheRightAnimal() throws Exception {
+    @SneakyThrows
+    public void detailWithTheRightAnimal() {
         var response = mockMvc.perform(get("/animals/Thor")).andReturn().getResponse();
         var animal = new ObjectMapper().readValue(response.getContentAsString(), Animal.class);
 
-        MatcherAssert.assertThat(animal.getName(), Matchers.equalTo(cat.getName()));
-        MatcherAssert.assertThat(animal.getBreed(), Matchers.equalTo(cat.getBreed()));
-        MatcherAssert.assertThat(animal.getGender(), Matchers.equalTo(cat.getGender()));
-        MatcherAssert.assertThat(animal.isVaccinated(), Matchers.equalTo(cat.isVaccinated()));
+        assertThat(animal.getName(), equalTo(cat.getName()));
+        assertThat(animal.getBreed(), equalTo(cat.getBreed()));
+        assertThat(animal.getGender(), equalTo(cat.getGender()));
+        assertThat(animal.isVaccinated(), equalTo(cat.isVaccinated()));
     }
 }
