@@ -1,6 +1,5 @@
 package com.shelter.animalback.component.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shelter.animalback.controller.dto.AnimalDto;
 import com.shelter.animalback.domain.Animal;
 import com.shelter.animalback.model.AnimalDao;
 import com.shelter.animalback.repository.AnimalRepository;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
@@ -28,12 +26,6 @@ import static org.hamcrest.Matchers.equalTo;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 public class GetAnimalTest {
-
-    @LocalServerPort
-    private int port;
-
-    private AnimalDto cat;
-
     @Autowired
     private AnimalRepository animalRepository;
 

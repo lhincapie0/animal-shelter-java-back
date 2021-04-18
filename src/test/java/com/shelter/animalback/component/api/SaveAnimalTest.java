@@ -60,21 +60,21 @@ public class SaveAnimalTest {
         assertThat(animalResponse.getBreed(), equalTo("Mestizo"));
         assertThat(animalResponse.getGender(), equalTo("Male"));
         assertThat(animalResponse.isVaccinated(), equalTo(false));
-//        Not working yet
-//        assertThat(animalResponse.getId(), notNullValue());
 
-//        var dbQuery = animalRepository.findById(animalResponse.getId());
-//        assertThat(dbQuery.isPresent(), is(true));
-//
-//        var animalDB = dbQuery.get();
-//        assertThat(animalDB.getName(), equalTo("Pupito"));
-//        assertThat(animalDB.getBreed(), equalTo("Mestizo"));
-//        assertThat(animalDB.getGender(), equalTo("Male"));
-//        assertThat(animalDB.isVaccinated(), equalTo(false));
+        assertThat(animalResponse.getId(), notNullValue());
+
+        var dbQuery = animalRepository.findById(animalResponse.getId());
+        assertThat(dbQuery.isPresent(), is(true));
+
+        var animalDB = dbQuery.get();
+        assertThat(animalDB.getName(), equalTo("Pupito"));
+        assertThat(animalDB.getBreed(), equalTo("Mestizo"));
+        assertThat(animalDB.getGender(), equalTo("Male"));
+        assertThat(animalDB.isVaccinated(), equalTo(false));
     }
 
 
-    // ------------------------ HELPERS ------------------------ //
+    // ------------------------ DTO HELPERS ------------------------ //
     @Getter
     @Setter
     @NoArgsConstructor
