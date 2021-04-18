@@ -26,7 +26,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = { "spring.config.additional-location=classpath:component-test.yml"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SaveAnimalTest {
 
@@ -38,7 +39,7 @@ public class SaveAnimalTest {
 
     @Test
     @SneakyThrows
-    public void createAnimalSuccessful() {
+    public void createAnimalSuccessfully() {
         var animal = new CreateAnimalRequestBody();
         animal.setName("Pupito");
         animal.setBreed("Mestizo");
