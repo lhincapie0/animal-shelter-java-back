@@ -30,6 +30,7 @@ dependencies {
 	testImplementation 'io.rest-assured:json-schema-validator:4.2.0'
 	testImplementation 'io.rest-assured:xml-path:4.2.0'
 	testImplementation 'com.h2database:h2:1.4.200'
+	testImplementation 'au.com.dius.pact.provider:junit5spring:4.2.4'
 }
 
 test {
