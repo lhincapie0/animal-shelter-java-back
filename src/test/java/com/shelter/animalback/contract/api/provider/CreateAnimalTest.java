@@ -18,17 +18,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @PactBroker(
         url = "${PACT_BROKER_URL}",
         authentication = @PactBrokerAuth(token = "${PACT_BROKER_TOKEN}")
 )
 @Provider("AnimalShelterBack")
 @ExtendWith(MockitoExtension.class)
-public class ListAnimalTest {
+public class CreateAnimalTest {
 
     @Mock
     private AnimalService animalService;
@@ -48,17 +44,15 @@ public class ListAnimalTest {
         context.setTarget(testTarget);
     }
 
-    @State("has animals")
-    public void addAnimals() {
+    @State("create animal")
+    public void createAnimal() {
         Animal animal = new Animal();
         animal.setName("Bigotes");
         animal.setBreed("Siames");
         animal.setGender("Male");
         animal.setVaccinated(false);
 
-        ArrayList<Animal> animals = new ArrayList<Animal>();
-        animals.add(animal);
-
-        Mockito.when(animalService.getAll()).thenReturn(animals);
+        Mockito.when(animalService.save(Mockito.any(Animal.class))).thenReturn(animal);
     }
+
 }

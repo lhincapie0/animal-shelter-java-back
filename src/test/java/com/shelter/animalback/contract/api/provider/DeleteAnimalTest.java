@@ -8,7 +8,7 @@ import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import com.shelter.animalback.controller.AnimalController;
-import com.shelter.animalback.domain.Animal;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.shelter.animalback.service.interfaces.AnimalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
@@ -18,17 +18,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @PactBroker(
         url = "${PACT_BROKER_URL}",
         authentication = @PactBrokerAuth(token = "${PACT_BROKER_TOKEN}")
 )
 @Provider("AnimalShelterBack")
 @ExtendWith(MockitoExtension.class)
-public class ListAnimalTest {
+public class DeleteAnimalTest {
 
     @Mock
     private AnimalService animalService;
@@ -48,17 +44,13 @@ public class ListAnimalTest {
         context.setTarget(testTarget);
     }
 
-    @State("has animals")
-    public void addAnimals() {
-        Animal animal = new Animal();
-        animal.setName("Bigotes");
-        animal.setBreed("Siames");
-        animal.setGender("Male");
-        animal.setVaccinated(false);
-
-        ArrayList<Animal> animals = new ArrayList<Animal>();
-        animals.add(animal);
-
-        Mockito.when(animalService.getAll()).thenReturn(animals);
+    @State("delete animal")
+    public void deleteAnimal(){
+        String animalName = "Manchas";
+        Mockito.doAnswer((i) -> {
+            assertTrue(animalName.equals(i.getArgument(0)));
+            return null;
+        }).when(animalService).delete(animalName);
     }
+
 }
