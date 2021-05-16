@@ -24,3 +24,9 @@ jobs:
         run: ./gradlew build
       - name: Run component tests
         run: ./gradlew test --tests "com.shelter.animalback.component.api.*"
+      - name: Run contract tests
+        env:
+          PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
+          PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
+        run: ./gradlew test --tests "com.shelter.animalback.contract.*"
+
