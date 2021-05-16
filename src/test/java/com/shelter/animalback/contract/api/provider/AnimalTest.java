@@ -51,21 +51,21 @@ public class AnimalTest {
     @State("create animal")
     public void createAnimal() {
         Animal animal = new Animal();
-        animal.setName("Bigotes");
-        animal.setBreed("Siames");
-        animal.setGender("Male");
-        animal.setVaccinated(true);
 
+        animal.setName("Manchitas");
+        animal.setBreed("Criollo");
+        animal.setGender("Female");
+        animal.setVaccinated(true);
         Mockito.when(animalService.save(Mockito.any(Animal.class))).thenReturn(animal);
     }
 
     @State("has animals")
     public void addAnimals() {
         Animal animal = new Animal();
-        animal.setName("Bigotes");
-        animal.setBreed("Siames");
-        animal.setGender("Male");
-        animal.setVaccinated(false);
+        animal.setName("Manchas");
+        animal.setBreed("Bengali");
+        animal.setGender("Female");
+        animal.setVaccinated(true);
 
         ArrayList<Animal> animals = new ArrayList<Animal>();
         animals.add(animal);
